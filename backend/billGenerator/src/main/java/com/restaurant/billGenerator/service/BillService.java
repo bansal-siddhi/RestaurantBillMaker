@@ -3,7 +3,7 @@ package com.restaurant.billGenerator.service;
 import com.restaurant.billGenerator.dao.impl.BillDAOImpl;
 import com.restaurant.billGenerator.dao.impl.MenuItemImpl;
 import com.restaurant.billGenerator.dto.DiningOrder;
-import com.restaurant.billGenerator.dto.MenuItem;
+import com.restaurant.billGenerator.model.menu.MenuItem;
 import com.restaurant.billGenerator.dto.OrderedItem;
 
 import java.util.HashMap;

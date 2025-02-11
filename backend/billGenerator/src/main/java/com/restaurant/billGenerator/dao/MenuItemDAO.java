@@ -1,6 +1,6 @@
 package com.restaurant.billGenerator.dao;
 
-import com.restaurant.billGenerator.dto.MenuItem;
+import com.restaurant.billGenerator.model.menu.MenuItem;
 
 import java.util.List;
 

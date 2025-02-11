@@ -1,13 +1,11 @@
 package com.restaurant.billGenerator.dao.impl;
 
 import com.restaurant.billGenerator.dao.MenuItemDAO;
-import com.restaurant.billGenerator.dto.MenuCategory;
-import com.restaurant.billGenerator.dto.MenuItem;
+import com.restaurant.billGenerator.model.menu.MenuItem;
 import com.restaurant.billGenerator.util.DatabaseConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,32 +29,32 @@ public class MenuItemImpl implements MenuItemDAO {
     @Override
     public List<MenuItem> getMenuItemByCategoryName(String categoryName) throws Exception {
         List<MenuItem> menuItems = new ArrayList<>();
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(GET_MENU_ITEM);
-        ) {
-            statement.setString(1, categoryName);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                menuItems.add(new MenuItem(resultSet.getString(2), resultSet.getDouble(3), MenuCategory.valueOf(resultSet.getString(4))));
-            }
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new Exception("Error getting all menu items: " + e.getMessage(), e);
-        }
+//        try (Connection connection = DatabaseConnection.getConnection();
+//             PreparedStatement statement = connection.prepareStatement(GET_MENU_ITEM);
+//        ) {
+//            statement.setString(1, categoryName);
+//            ResultSet resultSet = statement.executeQuery();
+//            while (resultSet.next()) {
+//                menuItems.add(new MenuItem(resultSet.getInt(1), resultSet.getString(2), resultSet.getDouble(3), MenuCategory.valueOf(resultSet.getString(4))));
+//            }
+//        } catch (SQLException | ClassNotFoundException e) {
+//            throw new Exception("Error getting all menu items: " + e.getMessage(), e);
+//        }
         return menuItems;
     }
 
     @Override
     public List<MenuItem> getAllMenuItems() throws Exception {
         List<MenuItem> menuItems = new ArrayList<>();
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(GET_MENU);
-             ResultSet resultSet = statement.executeQuery()) {
-            while (resultSet.next()) {
-                menuItems.add(new MenuItem(resultSet.getString(2), resultSet.getDouble(3), MenuCategory.valueOf(resultSet.getString(4))));
-            }
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new Exception("Error getting all menu items: " + e.getMessage(), e);
-        }
+//        try (Connection connection = DatabaseConnection.getConnection();
+//             PreparedStatement statement = connection.prepareStatement(GET_MENU);
+//             ResultSet resultSet = statement.executeQuery()) {
+//            while (resultSet.next()) {
+//                menuItems.add(new MenuItem(resultSet.getInt(1), resultSet.getString(2), resultSet.getDouble(3), MenuCategory.valueOf(resultSet.getString(4))));
+//            }
+//        } catch (SQLException | ClassNotFoundException e) {
+//            throw new Exception("Error getting all menu items: " + e.getMessage(), e);
+//        }
         return menuItems;
     }
 

@@ -1,25 +1,64 @@
 package com.restaurant.billGenerator.service;
 
-import com.restaurant.billGenerator.dao.impl.MenuCategoryImpl;
+import com.restaurant.billGenerator.model.menu.MenuCategory;
+import com.restaurant.billGenerator.model.menu.MenuItem;
+import com.restaurant.billGenerator.respository.MenuCategoryRepository;
+import com.restaurant.billGenerator.respository.MenuItemRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.Scanner;
+import java.util.List;
+import java.util.Optional;
 
+@Service
 public class MenuCategoryService {
-    private final MenuCategoryImpl menuCategory;
 
-    public MenuCategoryService(MenuCategoryImpl menuCategory) {
-        this.menuCategory = menuCategory;
+    @Autowired
+    MenuItemRepository menuItemRepository;
+
+    @Autowired
+    MenuCategoryRepository menuCategoryRepository;
+
+    public MenuCategory addMenuCategory(MenuCategory menuCategory){
+        return menuCategoryRepository.save(menuCategory);
     }
 
-    public void addCategory() throws Exception {
-        Scanner sc = new Scanner(System.in);
-        while (true) {
-            System.out.println("Enter Category");
-            String category = sc.nextLine();
-            menuCategory.insertCategory(category);
-            System.out.println("Do you want to enter another category(y or n)?");
-            String choice = sc.nextLine();
-            if (choice.trim().equalsIgnoreCase("n")) break;
+    public List<MenuCategory> getCategories(){
+        return menuCategoryRepository.findAll();
+    }
+
+    public Optional<MenuCategory> getCategory(String categoryName){
+        return menuCategoryRepository.findByCategoryName(categoryName);
+    }
+
+    public MenuCategory updateCategory(String categoryName, String newCategoryName){
+        Optional<MenuCategory> menuCategoryOptional = menuCategoryRepository.findByCategoryName(categoryName);
+        if(menuCategoryOptional.isPresent()){
+            MenuCategory menuCategory = menuCategoryOptional.get();
+            menuCategory.setCategoryName(newCategoryName);
+            menuCategoryRepository.save(menuCategory);
+            Optional<List<MenuItem>> menuItemsOptional =  menuItemRepository.findByMenuCategory_CategoryName(categoryName);
+            if(menuItemsOptional.isPresent()){
+                for(MenuItem item: menuItemsOptional.get()){
+                    item.setMenuCategory(menuCategory);
+                    menuItemRepository.save(item);
+                }
+            }
+            return menuCategory;
+        }
+        else {
+            throw new RuntimeException("Menu category with name " + categoryName + " not found");
+        }
+    }
+
+    public void deleteCategory(String categoryName){
+        Optional<MenuCategory> menuCategoryOptional = menuCategoryRepository.findByCategoryName(categoryName);
+        if(menuCategoryOptional.isPresent()){
+            Optional<List<MenuItem>> menuItemsOptional =  menuItemRepository.findByMenuCategory_CategoryName(categoryName);
+            if(menuItemsOptional.isPresent())
+                menuItemRepository.deleteAll(menuItemsOptional.get());
+            menuCategoryRepository.delete(menuCategoryOptional.get());
         }
     }
 }
+

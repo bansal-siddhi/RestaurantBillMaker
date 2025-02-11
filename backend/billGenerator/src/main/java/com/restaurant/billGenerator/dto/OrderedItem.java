@@ -1,5 +1,6 @@
 package com.restaurant.billGenerator.dto;
 
+import com.restaurant.billGenerator.model.menu.MenuItem;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
