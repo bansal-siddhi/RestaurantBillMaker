@@ -1,0 +1,48 @@
+.App {
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+.input-section {
+  margin-bottom: 30px;
+}
+
+input {
+  padding: 8px;
+  margin: 5px;
+  width: 150px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.bill-details ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.bill-details li {
+  margin: 5px 0;
+}
+
+h3 {
+  font-size: 1.2em;
+  margin-top: 20px;
+}
