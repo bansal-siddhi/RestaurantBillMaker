@@ -6,13 +6,13 @@ import java.sql.SQLException;
 
 public class DatabaseConnection {
 
-    private static final String JDBCURL = "url";
+    private static final String JDBC_URL = "url";
     private static final String USERNAME = "postgres";
-    private static final String PASSSWORD = "user";
+    private static final String PASSWORD = "user";
 
     public static Connection getConnection() throws SQLException, ClassNotFoundException {
-        Class.forName("org.postgresql.Driver"); // Load the driver
-        return DriverManager.getConnection(JDBCURL, USERNAME, PASSSWORD);
+        Class.forName("org.postgresql.Driver");
+        return DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
     }
 
     public static void closeConnection(Connection connection) throws SQLException {

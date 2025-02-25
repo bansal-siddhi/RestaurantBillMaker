@@ -55,9 +55,11 @@ public class MenuCategoryService {
         Optional<MenuCategory> menuCategoryOptional = menuCategoryRepository.findByCategoryName(categoryName);
         if(menuCategoryOptional.isPresent()){
             Optional<List<MenuItem>> menuItemsOptional =  menuItemRepository.findByMenuCategory_CategoryName(categoryName);
-            if(menuItemsOptional.isPresent())
-                menuItemRepository.deleteAll(menuItemsOptional.get());
+            menuItemsOptional.ifPresent(menuItems -> menuItemRepository.deleteAll(menuItems));
             menuCategoryRepository.delete(menuCategoryOptional.get());
+        }
+        else {
+            throw new RuntimeException("Menu category with name " + categoryName + " not found");
         }
     }
 }

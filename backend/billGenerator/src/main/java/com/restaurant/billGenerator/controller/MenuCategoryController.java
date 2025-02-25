@@ -2,14 +2,12 @@ package com.restaurant.billGenerator.controller;
 
 
 import com.restaurant.billGenerator.model.menu.MenuCategory;
-import com.restaurant.billGenerator.respository.MenuCategoryRepository;
 import com.restaurant.billGenerator.service.MenuCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,24 +27,11 @@ public class MenuCategoryController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-//    @Autowired
-//    private MenuCategoryRepository menuCategoryRepository;
-//
-//    @GetMapping("/categories")
-//    public ResponseEntity<List<MenuCategory>> getMenuCategories() {
-//        List<MenuCategory> menuCategories = menuCategoryRepository.findAll();
-//        if (menuCategories != null && !menuCategories.isEmpty()) {
-//            return new ResponseEntity<>(menuCategories, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
-//
     @PostMapping("/add")
     public ResponseEntity<MenuCategory> addMenuCategory(@RequestBody String categoryName){
         try{
             Optional<MenuCategory> menuCategoryOptional = menuCategoryService.getCategory(categoryName);
-            if(!menuCategoryOptional.isPresent()){
+            if(menuCategoryOptional.isEmpty()){
                 MenuCategory menuCategory = new MenuCategory();
                 menuCategory.setCategoryName(categoryName);
                 menuCategoryService.addMenuCategory(menuCategory);
@@ -60,6 +45,17 @@ public class MenuCategoryController {
 
     @PutMapping("/update/{categoryName}")
     public ResponseEntity<MenuCategory> updateMenuCategory(@PathVariable String categoryName, @RequestBody String newCategoryName){
-        menuCategoryService.updateCategory(categoryName, newCategoryName);
+        MenuCategory menuCategory = menuCategoryService.updateCategory(categoryName, newCategoryName);
+        if (menuCategory != null) {
+            return new ResponseEntity<>(menuCategory, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("delete/{categoryName}")
+    public ResponseEntity<MenuCategory> deleteMenuCategory(@PathVariable String categoryName){
+        menuCategoryService.deleteCategory(categoryName);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

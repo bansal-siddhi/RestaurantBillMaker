@@ -1,5 +1,6 @@
 package com.restaurant.billGenerator.model.bill;
 
+import com.restaurant.billGenerator.model.menu.MenuCategory;
 import com.restaurant.billGenerator.model.menu.MenuItem;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -14,11 +15,13 @@ public class BillDetail {
     @Column(name = "bill_detail_id")
     private int id;
 
-    @Column(name = "bill_id")
-    private int bill_id;
+    @ManyToOne
+    @JoinColumn(name = "bill_id", referencedColumnName = "bill_id")
+    private Bill bill;
 
-    @Column(name = "menu_item_id")
-    private int menuItemId;
+    @ManyToOne
+    @JoinColumn(name="menu_item_name", referencedColumnName = "item_name")
+    private MenuItem menuItem;
 
     @Column(name = "quantity", nullable = false)
     private int quantity;
